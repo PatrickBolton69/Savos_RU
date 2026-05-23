@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SAVOS — Портал сервисов</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1117;
+            color: #e1e4e8;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #f0f6fc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h1 small { font-size: 0.8rem; color: #8b949e; font-weight: 400; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px;
+            text-decoration: none;
+            color: #e1e4e8;
+            transition: border-color 0.15s, transform 0.1s;
+        }
+        .card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-1px);
+        }
+        .card .icon { font-size: 1.4rem; margin-bottom: 8px; display: block; }
+        .card .name { font-weight: 600; font-size: 0.95rem; }
+        .card .desc { font-size: 0.8rem; color: #8b949e; margin-top: 4px; }
+
+        .chat-section { margin-top: 16px; }
+        .footer {
+            margin-top: 24px;
+            font-size: 0.75rem;
+            color: #484f58;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <span>&#9670;</span> SAVOS
+            <small>— портал сервисов</small>
+        </h1>
+
+        <div class="grid">
+            <a class="card" href="https://nocodb.savos.ru" target="_blank">
+                <span class="icon">&#128451;</span>
+                <div class="name">NocoDB</div>
+                <div class="desc">Базы данных, Excel-like</div>
+            </a>
+            <a class="card" href="https://n8n.savos.ru" target="_blank">
+                <span class="icon">&#9881;</span>
+                <div class="name">n8n</div>
+                <div class="desc">Автоматизации, workflow</div>
+            </a>
+            <a class="card" href="https://portainer.savos.ru" target="_blank">
+                <span class="icon">&#128202;</span>
+                <div class="name">Portainer</div>
+                <div class="desc">Управление Docker</div>
+            </a>
+            <a class="card" href="https://gotenberg.savos.ru" target="_blank">
+                <span class="icon">&#128196;</span>
+                <div class="name">Gotenberg</div>
+                <div class="desc">PDF-генерация</div>
+            </a>
+            <a class="card" href="https://comfy.savos.ru" target="_blank">
+                <span class="icon">&#127912;</span>
+                <div class="name">ComfyUI</div>
+                <div class="desc">Workflow-редактор (CPU)</div>
+            </a>
+        </div>
+
+        <div class="chat-section" style="text-align:center;padding:32px 0">
+            <a class="card" href="https://chat.savos.ru" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px">
+                <span style="font-size:1.2rem">&#9733;</span>
+                <span class="name">Открыть чат с opencode</span>
+            </a>
+        </div>
+
+        <div class="footer">
+            SAVOS infrastructure &middot; Ubuntu &middot; Docker &middot; Caddy
+        </div>
+    </div>
+</body>
+</html>
