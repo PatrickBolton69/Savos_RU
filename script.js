@@ -135,10 +135,7 @@ if(toggle && navLinks){
 
 // Hidden admin panel — double-click logo
 document.querySelector('.logo')?.addEventListener('dblclick', () => {
-    const pwd = prompt('Пароль:')
-    if (pwd === 'rim6mirSAVrim6mir') {
-        location.href = '/go/'
-    }
+    location.href = '/go/'
 })
 
 })()
