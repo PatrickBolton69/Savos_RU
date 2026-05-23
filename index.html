@@ -4,22 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savos Studio — AI под ключ</title>
+    <meta name="description" content="Внедряем AI-помощников в Telegram, на сайты и в соцсети — от простого бота до интеллектуального секретаря. SavOS Studio, Олег Савченко. 33 года в IT.">
+    <meta property="og:title" content="Savos Studio — AI под ключ">
+    <meta property="og:description" content="Telegram-боты, умный секретарь, AI-поддержка. Прототип — за 2–3 дня. 33 года реального IT-опыта.">
+    <meta property="og:url" content="https://savos.ru">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div id="preloader">
+    <div class="boot-lines">
+        <div class="boot-line">&gt; SAVOS OS v2.0 &mdash; initializing...</div>
+        <div class="boot-line ok">&gt; AI modules loaded ............. [OK]</div>
+        <div class="boot-line ok">&gt; Telegram interface ............ [OK]</div>
+        <div class="boot-line ok">&gt; Human connection .............. [OK]</div>
+    </div>
+    <div class="boot-progress-bar"><div class="boot-progress-fill"></div></div>
+    <div class="boot-logo-text"><span class="boot-sav">Sav</span><span class="boot-os">OS</span></div>
+    <div class="boot-sub">AI Operating System for your business</div>
+</div>
+
 <nav class="navbar" id="navbar">
     <div class="nav-inner">
-        <a href="#hero" class="logo">Savos<span class="logo-accent">Studio</span></a>
+        <a href="#hero" class="logo">
+            <span class="logo-sav">Sav</span><span class="logo-os">OS</span><span class="logo-studio"> Studio</span>
+        </a>
         <ul class="nav-links">
             <li><a href="#services">Услуги</a></li>
             <li><a href="#advantages">Преимущества</a></li>
             <li><a href="#process">Процесс</a></li>
+            <li><a href="#about">О нас</a></li>
             <li><a href="#contacts">Контакты</a></li>
         </ul>
+        <a href="https://t.me/SavosRU" class="nav-cta" target="_blank" rel="noopener">Telegram</a>
         <button class="nav-toggle" id="navToggle" aria-label="Меню">
             <span></span><span></span><span></span>
         </button>
@@ -27,19 +47,31 @@
 </nav>
 
 <section class="hero" id="hero">
-    <img class="section-bg" src="/img/hero-bg.jpg" alt="" aria-hidden="true">
+    <img class="section-bg" src="img/hero-bg.jpg" alt="" aria-hidden="true">
     <div class="hero-overlay"></div>
     <canvas id="heroCanvas"></canvas>
     <div class="hero-content">
+        <div class="hero-badge">
+            <span class="hero-dot"></span>
+            33 года в IT &nbsp;&middot;&nbsp; Прототип за 2–3 дня
+        </div>
         <h1 class="hero-title">
             <span class="title-line">Искусственный интеллект</span>
             <span class="title-line accent">под ключ</span>
         </h1>
         <p class="hero-subtitle">
-            Внедряем AI-помощников на сайты, в Telegram и соцсети —<br>
-            от идеи до работающего решения
+            Внедряем AI-помощников на сайты, в Telegram и соцсети.<br>
+            Прошли путь от IBM XT до нейросетей — и знаем, что работает на практике.
         </p>
-        <a href="#services" class="btn-primary">Узнать больше</a>
+        <div class="hero-ctas">
+            <a href="https://t.me/SavosRU" class="btn-primary" target="_blank" rel="noopener">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069-2.07 9.754c-.152.677-.557.843-1.128.524l-3.114-2.295-1.503 1.446c-.166.166-.306.306-.627.306l.224-3.174 5.784-5.228c.251-.224-.055-.348-.39-.124L7.8 14.08l-3.06-.956c-.665-.208-.679-.665.139-.984l11.966-4.612c.553-.2 1.037.135.717.541z"/>
+                </svg>
+                Обсудить проект
+            </a>
+            <a href="#services" class="btn-outline">Что мы делаем ↓</a>
+        </div>
     </div>
     <div class="scroll-indicator">
         <span>Листайте</span>
@@ -47,12 +79,46 @@
     </div>
 </section>
 
+<section class="savos-name" id="savos-name">
+    <div class="name-container">
+        <div class="name-grid">
+            <div class="name-left">
+                <span class="section-tag">Откуда название</span>
+                <div class="name-rows" id="nameRows">
+                    <div class="name-row">
+                        <div class="name-letter gold">SAV</div>
+                        <div class="name-desc"><strong>«Сав»</strong> — три буквы из фамилии <em>Савченко</em></div>
+                    </div>
+                    <div class="name-row">
+                        <div class="name-letter cyan">O</div>
+                        <div class="name-desc"><strong>Олег</strong> — имя</div>
+                    </div>
+                    <div class="name-row last">
+                        <div class="name-letter cyan">S</div>
+                        <div class="name-desc"><strong>Сергеевич</strong> — отчество</div>
+                    </div>
+                </div>
+            </div>
+            <div class="name-right">
+                <h2 class="name-heading">За брендом —<br><span class="accent-gold">живой человек</span></h2>
+                <p><strong>SavOS</strong> — это «Савченко Олег Сергеевич». Не агентство с безликими менеджерами, а основатель лично: вникает в ваш бизнес, проектирует решение и доводит его до запуска.</p>
+                <p>А две буквы <strong class="accent-cyan">OS</strong> — это ещё и <strong>Operating System</strong>. Потому что настоящий AI работает не как отдельный виджет, а как операционная система вашего бизнеса: всегда включена, всегда думает, никогда не болеет.</p>
+                <div class="mono-hint">
+                    <span>&gt; SavOS = Савченко Олег Сергеевич</span>
+                    <span>&gt; SavOS = Operating System for your business</span>
+                    <span class="mono-comment">&gt; // оба смысла работают одновременно</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="services" id="services">
-    <img class="section-bg" src="/img/services-bg.jpg" alt="" aria-hidden="true">
+    <img class="section-bg" src="img/services-bg.jpg" alt="" aria-hidden="true">
     <div class="section-header">
         <span class="section-tag">Услуги</span>
         <h2>Что мы делаем</h2>
-        <p class="section-desc">Превращаем сложные технологии в работающие инструменты для вашего бизнеса</p>
+        <p class="section-desc">Превращаем сложные технологии в инструменты, которые зарабатывают деньги — а не просто выглядят красиво на презентации</p>
     </div>
     <div class="services-grid">
         <div class="service-card" data-delay="0">
@@ -60,11 +126,10 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="2" y="2" width="20" height="20" rx="3"/>
                     <path d="M8 12h8M12 8v8"/>
-                    <circle cx="12" cy="12" r="10" opacity="0"/>
                 </svg>
             </div>
             <h3>AI-ассистенты на сайты</h3>
-            <p>Умные помощники, которые отвечают на вопросы клиентов, консультируют по товарам и услугам, принимают заявки — 24/7, без выходных.</p>
+            <p>Умный виджет, который знает ваш прайс, ваши услуги и ваши правила — и отвечает клиентам вместо вас круглосуточно. Принимает заявки, консультирует, записывает на приём. Больше не нужно дежурить у чата в два часа ночи.</p>
         </div>
         <div class="service-card" data-delay="100">
             <div class="card-icon">
@@ -74,7 +139,7 @@
                 </svg>
             </div>
             <h3>Telegram-боты с AI</h3>
-            <p>Интеллектуальные секретари для вашего канала или чата: от автоматической поддержки до полноценного диалогового ассистента.</p>
+            <p>Не просто бот с кнопками — настоящий диалоговый помощник. Понимает свободные вопросы, ведёт разговор в контексте, помнит историю переписки, может продать, записать и отчитаться. Интегрируется с вашим каналом или группой за несколько дней.</p>
         </div>
         <div class="service-card" data-delay="200">
             <div class="card-icon">
@@ -85,7 +150,7 @@
                 </svg>
             </div>
             <h3>AI-саппорт и автоматизация</h3>
-            <p>Внедряем умные автоответчики в ВК, Instagram и другие площадки. Разгружаем живых операторов, ускоряем реакции.</p>
+            <p>ВКонтакте, Instagram, Avito — все входящие в одной системе. Умный ответчик обрабатывает поток обращений, сортирует по срочности и передаёт живому менеджеру только то, что действительно требует человека. Скорость реакции — секунды, не часы.</p>
         </div>
     </div>
 </section>
@@ -94,103 +159,185 @@
     <div class="section-header">
         <span class="section-tag">Преимущества</span>
         <h2>Почему выбирают нас</h2>
+        <p class="section-desc">Мы не вчера прочитали про ChatGPT — за нами 33 года реального IT-опыта</p>
     </div>
     <div class="advantages-content">
         <div class="advantage-item">
             <div class="advantage-num">01</div>
             <div class="advantage-text">
                 <h3>Полный цикл под ключ</h3>
-                <p>От первой консультации до запуска и сопровождения. Вам не нужно разбираться в технических деталях — мы берём всё на себя.</p>
+                <p>Первый звонок. Аудит бизнеса. Прототип. Внедрение. Сопровождение. Всё — мы. Вам не нужно нанимать программистов, разбираться в API или следить за дедлайнами. Просто скажите, что болит — и получите рабочее решение.</p>
             </div>
         </div>
         <div class="advantage-item">
             <div class="advantage-num">02</div>
             <div class="advantage-text">
-                <h3>Для любого уровня</h3>
-                <p>Нет сайта? Есть только Telegram-канал? Не проблема. Мы адаптируем решение под то, что у вас уже есть. Не нужно ничего докупать.</p>
+                <h3>Работаем с тем, что есть</h3>
+                <p>Нет сайта? Отлично — начнём с Telegram. Нет Telegram? Сделаем. Уже есть что-то работающее? Встроимся и усилим. Нам не нужна чистая площадка и нулевой бюджет на инфраструктуру — мы адаптируемся под реальность.</p>
             </div>
         </div>
         <div class="advantage-item">
             <div class="advantage-num">03</div>
             <div class="advantage-text">
-                <h3>Реальный интеллект</h3>
-                <p>Не бот по кнопкам и не вопрос-ответ из справочника. Наши помощники понимают контекст, учатся на истории диалогов и принимают решения.</p>
+                <h3>Реальный интеллект, не имитация</h3>
+                <p>Наши боты не ищут совпадения по ключевым словам из справочника. Они понимают смысл вопроса — даже написанного с ошибками или в нестандартной форме. Помнят историю диалога. Обучаются на ваших данных. Принимают решения в контексте.</p>
             </div>
         </div>
         <div class="advantage-item">
             <div class="advantage-num">04</div>
             <div class="advantage-text">
-                <h3>Делаем сложное — простым</h3>
-                <p>Расскажем на человеческом языке, покажем на прототипе, внедрим без боли. Даже если вам «за 50» и вы никогда не работали с AI.</p>
+                <h3>Говорим на вашем языке</h3>
+                <p>33 года в IT научили одному: сложное надо объяснять просто. Мы не произносим «промпт-инжиниринг» и «мультиагентная архитектура» без необходимости. Мы говорим: «через три дня у вас будет бот, который делает вот это» — и делаем.</p>
             </div>
         </div>
     </div>
 </section>
 
 <section class="process" id="process">
-    <img class="section-bg" src="/img/process-bg.jpg" alt="" aria-hidden="true">
+    <img class="section-bg" src="img/process-bg.jpg" alt="" aria-hidden="true">
     <div class="section-header">
         <span class="section-tag">Процесс</span>
         <h2>Как мы работаем</h2>
+        <p class="section-desc">Никакого тумана и «мы вам перезвоним» — только конкретные шаги с понятным результатом</p>
     </div>
     <div class="process-steps">
         <div class="step">
             <div class="step-dot"></div>
             <div class="step-content">
                 <h3>Аудит</h3>
-                <p>Разбираем ваши задачи, текущие процессы и точки роста. Понимаем, где AI даст максимальный эффект.</p>
+                <p>Разговариваем с вами: какой бизнес, какие задачи, что раздражает каждый день. Ищем точки, где AI даст максимальный эффект именно у вас — не по шаблону «а у нас вот так делают», а конкретно под вашу ситуацию. Это бесплатно.</p>
             </div>
         </div>
         <div class="step">
             <div class="step-dot"></div>
             <div class="step-content">
                 <h3>Прототип</h3>
-                <p>За 2–3 дня собираем демо-версию. Вы видите, как это будет работать, и вносите правки до запуска.</p>
+                <p>За 2–3 дня собираем рабочую демо-версию. Не макет в Figma и не обещание на словах — реальный бот или ассистент, с которым можно поговорить. Смотрите, трогайте, вносите правки до того, как мы ушли в полное внедрение.</p>
             </div>
         </div>
         <div class="step">
             <div class="step-dot"></div>
             <div class="step-content">
                 <h3>Внедрение</h3>
-                <p>Интегрируем решение в вашу инфраструктуру: сайт, Telegram, соцсети. Настраиваем, тестируем, запускаем.</p>
+                <p>Разворачиваем на вашем сайте, в вашем Telegram, в вашей CRM или мессенджере. Настраиваем, гоняем в боевых условиях, передаём с инструкцией и без паники. За 20 лет сисадминского опыта мы видели всякое — ваша инфраструктура нас не испугает.</p>
             </div>
         </div>
         <div class="step">
             <div class="step-dot"></div>
             <div class="step-content">
                 <h3>Поддержка</h3>
-                <p>Сопровождаем после запуска. Дорабатываем, обучаем, масштабируем по мере роста вашего бизнеса.</p>
+                <p>Мы не исчезаем после запуска — и это не рекламная фраза. Мониторим работу, вносим правки, обучаем помощника на новых данных. Ваш бизнес растёт — AI растёт вместе с ним. Мы рядом на этом пути.</p>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="about" id="about">
+    <div class="about-container">
+        <div class="section-header">
+            <span class="section-tag">Команда</span>
+            <h2>Про нас</h2>
+            <p class="section-desc">Мы с историей — не стартаперы, открывшие ChatGPT в прошлом году</p>
+        </div>
+        <div class="team-grid">
+
+            <div class="team-card featured">
+                <div class="team-photo-wrap">
+                    <!--
+                        Добавить фото: положите файл в /img/ и раскомментируйте:
+                        <img src="img/oleg.jpg" alt="Олег Савченко" class="team-photo-img">
+                    -->
+                    <div class="team-photo-placeholder">
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+                            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                        <span>Фото Олега</span>
+                    </div>
+                    <div class="team-since">В IT с 1992</div>
+                </div>
+                <div class="team-info">
+                    <div class="team-header">
+                        <h3>Олег Савченко</h3>
+                        <span class="team-role">Основатель &middot; SavOS Studio</span>
+                    </div>
+                    <div class="team-timeline">
+                        <span class="tt-chip">1992 &middot; IBM PC XT</span>
+                        <span class="tt-chip">286 → 386 → 486 → Pentium</span>
+                        <span class="tt-chip">20+ лет сисадмин</span>
+                        <span class="tt-chip">Заказная разработка</span>
+                        <span class="tt-chip">Сайты &amp; курсы</span>
+                        <span class="tt-chip">Крипто-YouTube</span>
+                        <span class="tt-chip">Торговые боты</span>
+                        <span class="tt-chip accent">2023+ &middot; AI</span>
+                    </div>
+                    <p>Я начал работать с компьютерами в 1992 году — ещё с классических IBM PC XT, которые сейчас встречаются только в музеях. Прошёл всю линейку сам, своими руками: 286, 386, 486, первые Pentium'ы. То время, когда каждое новое поколение железа было маленькой революцией, а каждый новый мегагерц реально чего-то стоил.</p>
+                    <p>С самого начала я совмещал три роли одновременно: программировал, администрировал сети и серверы, собирал компьютеры на продажу. Больше 20 лет сисадминства — сотни машин, тысячи пользователей, бесчисленные ночные дежурства. Параллельно я писал программы на заказ, делал сайты, создавал обучающие курсы, вёл YouTube-каналы по крипте, разрабатывал торговых ботов для crypto и forex.</p>
+                    <p class="team-quote">«Мне уже за 55... Ведь я 1969 года рождения. Так что я не молодой стартапер, открывший ChatGPT в прошлом году. За плечами — больше полувека жизни и 33 года в технологиях. С таким багажом приходят к AI не с восторгом новичка, а с пониманием практика: что работает в реальном деле, а что — красиво звучит только на презентации. И главное — я хорошо понимаю тех, кто ищет своё место в этом новом мире.»</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-photo-wrap">
+                    <!--
+                        <img src="img/patrick.jpg" alt="Патрик Болтон" class="team-photo-img">
+                    -->
+                    <div class="team-photo-placeholder">
+                        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+                            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                        </svg>
+                        <span>Фото Патрика</span>
+                    </div>
+                </div>
+                <div class="team-info">
+                    <div class="team-header">
+                        <h3>Патрик Болтон</h3>
+                        <span class="team-role">Технический партнёр</span>
+                    </div>
+                    <p>Патрик — мой технический партнёр, с которым мы вместе прошли немало сложных проектов и преодолели не один настоящий технический тупик. У нас разные подходы к задачам — и это плюс, а не минус. Там, где я вижу архитектуру и выстраиваю мост между клиентом и технологиями, Патрик воплощает это в реальный код и работающую инфраструктуру.</p>
+                    <p>Мы работаем в тандеме — и за счёт синергии вместе решаем задачи, с которыми каждый из нас в одиночку справлялся бы значительно дольше и с гораздо более серьёзными трудностями. Результат всегда больше суммы частей.</p>
+                    <div class="team-synergy">
+                        <span class="syn-icon">⚡</span>
+                        <span>Синергия — это не маркетинговое слово. Это когда один плюс один равно трём.</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
 
 <section class="contacts" id="contacts">
     <div class="contacts-content">
-        <h2>Контакты</h2>
-        <div class="contacts-placeholder">
-            <div class="placeholder-icon">
-                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                    <rect x="4" y="4" width="56" height="56" rx="12" stroke="currentColor" stroke-width="2"/>
-                    <path d="M20 24h24M20 32h24M20 40h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
+        <span class="section-tag">Начать</span>
+        <h2 class="contacts-heading">Первая консультация — <span class="accent-gold">бесплатно</span></h2>
+        <p class="contacts-sub">Расскажите о задаче — разберём, что именно AI может решить в вашем конкретном случае, и сколько это стоит. Без давления и лишних слов.</p>
+
+        <a href="https://t.me/SavosRU" class="btn-tg" target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069-2.07 9.754c-.152.677-.557.843-1.128.524l-3.114-2.295-1.503 1.446c-.166.166-.306.306-.627.306l.224-3.174 5.784-5.228c.251-.224-.055-.348-.39-.124L7.8 14.08l-3.06-.956c-.665-.208-.679-.665.139-.984l11.966-4.612c.553-.2 1.037.135.717.541z"/>
+            </svg>
+            Написать в Telegram
+        </a>
+
+        <div class="or-divider"><span>или оставьте заявку</span></div>
+
+        <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-row">
+                <input class="form-inp" type="text"  name="name"    placeholder="Ваше имя"                   required autocomplete="name">
+                <input class="form-inp" type="text"  name="contact" placeholder="Telegram / телефон / email" required>
             </div>
-            <p class="placeholder-title">Временная недоступность</p>
-            <p class="placeholder-text">
-                В данный момент в Savos Studio проходит техническая реорганизация.<br>
-                Контактные данные появятся сразу после её завершения.<br>
-                Следите за обновлениями!
-            </p>
-        </div>
+            <textarea class="form-inp" name="message" placeholder="Кратко о задаче — что хотите автоматизировать?"></textarea>
+            <button type="submit" class="form-submit">Отправить заявку →</button>
+        </form>
     </div>
 </section>
 
 <footer class="footer">
     <div class="footer-inner">
-        <p>&copy; 2026 Savos Studio. Все права защищены.</p>
+        <p>&copy; 2025 Savos Studio &mdash; AI Operating System for your business</p>
     </div>
 </footer>
 
-<script src="/script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

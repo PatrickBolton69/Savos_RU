@@ -1,6 +1,15 @@
 ;(function(){
 'use strict'
 
+// Preloader
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        const pl = document.getElementById('preloader')
+        if (pl) pl.classList.add('hidden')
+    }, 2700)
+})
+
+// Hero canvas — particles with neural network lines
 const heroCanvas = document.getElementById('heroCanvas')
 if(heroCanvas){
     const ctx = heroCanvas.getContext('2d')
@@ -24,7 +33,8 @@ if(heroCanvas){
             this.speedX = (Math.random() - .5) * .6
             this.speedY = (Math.random() - .5) * .6
             this.opacity = Math.random() * .5 + .1
-            this.hue = Math.random() * 60 + 240
+            // mix of gold (hue ~45) and purple (hue ~250)
+            this.hue = Math.random() < .35 ? Math.random() * 20 + 35 : Math.random() * 60 + 240
         }
         update(){
             this.x += this.speedX
@@ -87,7 +97,7 @@ if(heroCanvas){
     animate()
 }
 
-// Intersection Observer for scroll-triggered animations
+// Intersection Observer — scroll-triggered animations
 const observerOptions = { threshold: .15, rootMargin: '0px 0px -50px 0px' }
 const observer = new IntersectionObserver((entries) => {
     for(const entry of entries){
@@ -103,6 +113,22 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.service-card, .advantage-item, .step').forEach(el => {
     observer.observe(el)
 })
+
+// SavOS name rows stagger animation
+const nameRows = document.getElementById('nameRows')
+if(nameRows){
+    const nameObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.querySelectorAll('.name-row').forEach((row, i) => {
+                    setTimeout(() => row.classList.add('visible'), i * 130)
+                })
+                nameObserver.unobserve(entry.target)
+            }
+        })
+    }, { threshold: .2 })
+    nameObserver.observe(nameRows)
+}
 
 // Navbar background on scroll
 const navbar = document.getElementById('navbar')
@@ -133,10 +159,23 @@ if(toggle && navLinks){
     })
 }
 
+// Contact form
+const contactForm = document.getElementById('contactForm')
+if(contactForm){
+    contactForm.addEventListener('submit', function(e){
+        e.preventDefault()
+        const btn = this.querySelector('.form-submit')
+        btn.textContent = 'Заявка отправлена ✓'
+        btn.style.background = '#00d4ff'
+        btn.style.color = '#000'
+        btn.disabled = true
+        // TODO: подключить отправку — Formspree, EmailJS или Telegram webhook через n8n
+    })
+}
+
 // Hidden admin panel — double-click logo
 document.querySelector('.logo')?.addEventListener('dblclick', () => {
     location.href = '/go/'
 })
 
 })()
-
