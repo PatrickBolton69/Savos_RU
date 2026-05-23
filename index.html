@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savos Studio — AI под ключ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="nav-inner">
+        <a href="#hero" class="logo">Savos<span class="logo-accent">Studio</span></a>
+        <ul class="nav-links">
+            <li><a href="#services">Услуги</a></li>
+            <li><a href="#advantages">Преимущества</a></li>
+            <li><a href="#process">Процесс</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</nav>
+
+<section class="hero" id="hero">
+    <img class="section-bg" src="/img/hero-bg.jpg" alt="" aria-hidden="true">
+    <div class="hero-overlay"></div>
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-content">
+        <h1 class="hero-title">
+            <span class="title-line">Искусственный интеллект</span>
+            <span class="title-line accent">под ключ</span>
+        </h1>
+        <p class="hero-subtitle">
+            Внедряем AI-помощников на сайты, в Telegram и соцсети —<br>
+            от идеи до работающего решения
+        </p>
+        <a href="#services" class="btn-primary">Узнать больше</a>
+    </div>
+    <div class="scroll-indicator">
+        <span>Листайте</span>
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<section class="services" id="services">
+    <img class="section-bg" src="/img/services-bg.jpg" alt="" aria-hidden="true">
+    <div class="section-header">
+        <span class="section-tag">Услуги</span>
+        <h2>Что мы делаем</h2>
+        <p class="section-desc">Превращаем сложные технологии в работающие инструменты для вашего бизнеса</p>
+    </div>
+    <div class="services-grid">
+        <div class="service-card" data-delay="0">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="3"/>
+                    <path d="M8 12h8M12 8v8"/>
+                    <circle cx="12" cy="12" r="10" opacity="0"/>
+                </svg>
+            </div>
+            <h3>AI-ассистенты на сайты</h3>
+            <p>Умные помощники, которые отвечают на вопросы клиентов, консультируют по товарам и услугам, принимают заявки — 24/7, без выходных.</p>
+        </div>
+        <div class="service-card" data-delay="100">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 3L2 12l7 2 3 7 9-18z"/>
+                    <path d="M12 15l4-6"/>
+                </svg>
+            </div>
+            <h3>Telegram-боты с AI</h3>
+            <p>Интеллектуальные секретари для вашего канала или чата: от автоматической поддержки до полноценного диалогового ассистента.</p>
+        </div>
+        <div class="service-card" data-delay="200">
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                    <circle cx="9" cy="10" r="1.5" fill="currentColor" stroke="none"/>
+                    <circle cx="15" cy="10" r="1.5" fill="currentColor" stroke="none"/>
+                </svg>
+            </div>
+            <h3>AI-саппорт и автоматизация</h3>
+            <p>Внедряем умные автоответчики в ВК, Instagram и другие площадки. Разгружаем живых операторов, ускоряем реакции.</p>
+        </div>
+    </div>
+</section>
+
+<section class="advantages" id="advantages">
+    <div class="section-header">
+        <span class="section-tag">Преимущества</span>
+        <h2>Почему выбирают нас</h2>
+    </div>
+    <div class="advantages-content">
+        <div class="advantage-item">
+            <div class="advantage-num">01</div>
+            <div class="advantage-text">
+                <h3>Полный цикл под ключ</h3>
+                <p>От первой консультации до запуска и сопровождения. Вам не нужно разбираться в технических деталях — мы берём всё на себя.</p>
+            </div>
+        </div>
+        <div class="advantage-item">
+            <div class="advantage-num">02</div>
+            <div class="advantage-text">
+                <h3>Для любого уровня</h3>
+                <p>Нет сайта? Есть только Telegram-канал? Не проблема. Мы адаптируем решение под то, что у вас уже есть. Не нужно ничего докупать.</p>
+            </div>
+        </div>
+        <div class="advantage-item">
+            <div class="advantage-num">03</div>
+            <div class="advantage-text">
+                <h3>Реальный интеллект</h3>
+                <p>Не бот по кнопкам и не вопрос-ответ из справочника. Наши помощники понимают контекст, учатся на истории диалогов и принимают решения.</p>
+            </div>
+        </div>
+        <div class="advantage-item">
+            <div class="advantage-num">04</div>
+            <div class="advantage-text">
+                <h3>Делаем сложное — простым</h3>
+                <p>Расскажем на человеческом языке, покажем на прототипе, внедрим без боли. Даже если вам «за 50» и вы никогда не работали с AI.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="process" id="process">
+    <img class="section-bg" src="/img/process-bg.jpg" alt="" aria-hidden="true">
+    <div class="section-header">
+        <span class="section-tag">Процесс</span>
+        <h2>Как мы работаем</h2>
+    </div>
+    <div class="process-steps">
+        <div class="step">
+            <div class="step-dot"></div>
+            <div class="step-content">
+                <h3>Аудит</h3>
+                <p>Разбираем ваши задачи, текущие процессы и точки роста. Понимаем, где AI даст максимальный эффект.</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-dot"></div>
+            <div class="step-content">
+                <h3>Прототип</h3>
+                <p>За 2–3 дня собираем демо-версию. Вы видите, как это будет работать, и вносите правки до запуска.</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-dot"></div>
+            <div class="step-content">
+                <h3>Внедрение</h3>
+                <p>Интегрируем решение в вашу инфраструктуру: сайт, Telegram, соцсети. Настраиваем, тестируем, запускаем.</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-dot"></div>
+            <div class="step-content">
+                <h3>Поддержка</h3>
+                <p>Сопровождаем после запуска. Дорабатываем, обучаем, масштабируем по мере роста вашего бизнеса.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contacts" id="contacts">
+    <div class="contacts-content">
+        <h2>Контакты</h2>
+        <div class="contacts-placeholder">
+            <div class="placeholder-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                    <rect x="4" y="4" width="56" height="56" rx="12" stroke="currentColor" stroke-width="2"/>
+                    <path d="M20 24h24M20 32h24M20 40h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <p class="placeholder-title">Временная недоступность</p>
+            <p class="placeholder-text">
+                В данный момент в Savos Studio проходит техническая реорганизация.<br>
+                Контактные данные появятся сразу после её завершения.<br>
+                Следите за обновлениями!
+            </p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <p>&copy; 2026 Savos Studio. Все права защищены.</p>
+    </div>
+</footer>
+
+<script src="/script.js"></script>
+</body>
+</html>
