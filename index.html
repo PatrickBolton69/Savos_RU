@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savos Studio — Ваш AI под ключ</title>
+  <meta name="description" content="Внедрение искусственного интеллекта в Telegram, сайты и соцсети. Боты, AI-поддержка, умный секретарь — от Олега Савченко. SavOS Studio.">
+  <meta property="og:title" content="Savos Studio — AI под ключ для вашего бизнеса">
+  <meta property="og:description" content="Telegram-боты, умные секретари, AI-поддержка. Быстро, надёжно, по-человечески.">
+  <meta property="og:url" content="https://savos.ru">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:          #08091A;
+      --bg2:         #0D1235;
+      --bg3:         #111540;
+      --gold:        #F5A623;
+      --gold-dim:    rgba(245,166,35,0.12);
+      --gold-glow:   0 0 32px rgba(245,166,35,0.45);
+      --cyan:        #00D4FF;
+      --cyan-dim:    rgba(0,212,255,0.10);
+      --cyan-glow:   0 0 32px rgba(0,212,255,0.45);
+      --tg:          #2AABEE;
+      --text:        #EDF2FF;
+      --text-dim:    #6B7FA3;
+      --card:        rgba(255,255,255,0.04);
+      --border:      rgba(255,255,255,0.08);
+      --border-gold: rgba(245,166,35,0.28);
+      --font:        'Space Grotesk', sans-serif;
+      --mono:        'JetBrains Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ── PRELOADER ─────────────────────────────── */
+    #preloader {
+      position: fixed; inset: 0;
+      background: #020308;
+      z-index: 9999;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 28px;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .boot-terminal {
+      font-family: var(--mono); font-size: 13px;
+      color: #3A8A50; text-align: left; min-width: 320px; line-height: 1.9;
+    }
+    .boot-line { opacity: 0; animation: fadeIn .05s forwards; }
+    .boot-line:nth-child(1) { animation-delay: .15s; }
+    .boot-line:nth-child(2) { animation-delay: .55s; }
+    .boot-line:nth-child(3) { animation-delay: .90s; }
+    .boot-line:nth-child(4) { animation-delay: 1.20s; }
+    .boot-line.ok { color: var(--cyan); }
+
+    .boot-progress {
+      width: 320px; height: 2px;
+      background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden;
+      opacity: 0; animation: fadeIn .05s 1.2s forwards;
+    }
+    .boot-progress-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--gold), var(--cyan));
+      animation: grow 1s 1.3s ease-out forwards;
+    }
+
+    .boot-logo {
+      font-size: clamp(52px, 10vw, 84px); font-weight: 700;
+      letter-spacing: .18em; opacity: 0;
+      animation: logoIn .8s 1.55s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .boot-logo .sav { color: var(--gold); }
+    .boot-logo .os  { color: var(--cyan); }
+
+    .boot-sub {
+      font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0; animation: fadeIn .4s 2.1s forwards;
+    }
+
+    @keyframes fadeIn  { to { opacity: 1; } }
+    @keyframes grow    { to { width: 100%; } }
+    @keyframes logoIn  { from { opacity:0; transform:translateY(20px) scale(.95); filter:blur(10px); }
+                         to   { opacity:1; transform:translateY(0)     scale(1);  filter:blur(0); } }
+
+    /* ── CANVAS ──────────────────────────────────── */
+    #particles {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: .55;
+    }
+
+    /* ── GLOW ORBS (hero) ───────────────────────── */
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(100px); pointer-events: none; z-index: 0;
+    }
+    .orb-gold {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(245,166,35,.18) 0%, transparent 70%);
+      top: -120px; left: -100px;
+    }
+    .orb-cyan {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(0,212,255,.14) 0%, transparent 70%);
+      bottom: -60px; right: -80px;
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 18px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      backdrop-filter: blur(14px);
+      background: rgba(8,9,26,.72);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 22px; font-weight: 700;
+      letter-spacing: .08em; text-decoration: none;
+    }
+    .nav-logo .sav { color: var(--gold); }
+    .nav-logo .os  { color: var(--cyan); }
+    .nav-logo em   { color: var(--text-dim); font-style: normal;
+                     font-weight: 400; font-size: 14px; margin-left: 6px; }
+
+    .nav-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold); color: #000;
+      padding: 10px 20px; border-radius: 8px;
+      text-decoration: none; font-weight: 700; font-size: 14px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .nav-btn:hover { transform: translateY(-2px); box-shadow: var(--gold-glow); }
+
+    /* ── LAYOUT ──────────────────────────────────── */
+    section { position: relative; z-index: 1; }
+
+    .container {
+      max-width: 1120px; margin: 0 auto; padding: 0 24px;
+    }
+
+    .label {
+      display: inline-block;
+      font-size: 11px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--cyan);
+      border: 1px solid rgba(0,212,255,.28); border-radius: 20px;
+      padding: 4px 14px; margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700; line-height: 1.15; margin-bottom: 16px;
+    }
+
+    .g { color: var(--gold); }
+    .c { color: var(--cyan); }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── HERO ────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero-inner { text-align: center; position: relative; z-index: 1; width: 100%; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,166,35,.08);
+      border: 1px solid rgba(245,166,35,.28);
+      border-radius: 30px; padding: 6px 18px;
+      font-size: 13px; font-weight: 500; color: var(--gold);
+      margin-bottom: 36px;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(1.6); }
+    }
+
+    h1 {
+      font-size: clamp(38px, 7.5vw, 72px);
+      font-weight: 700; line-height: 1.12;
+      letter-spacing: -.02em; margin-bottom: 26px;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2.2vw, 19px);
+      color: var(--text-dim); line-height: 1.75;
+      max-width: 580px; margin: 0 auto 48px;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 16px;
+      justify-content: center; flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold); color: #000;
+      padding: 16px 32px; border-radius: 12px;
+      font-weight: 700; font-size: 16px; text-decoration: none;
+      box-shadow: 0 4px 24px rgba(245,166,35,.28);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(245,166,35,.5); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      border: 1px solid var(--border); color: var(--text);
+      padding: 16px 32px; border-radius: 12px;
+      font-weight: 600; font-size: 16px; text-decoration: none;
+      transition: border-color .2s, color .2s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-3px); }
+
+    .hero-scroll {
+      margin-top: 64px; display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 11px;
+      letter-spacing: .12em; text-transform: uppercase;
+      animation: bounce 3s ease-in-out infinite;
+    }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+    /* ── WHAT IS SAVOS ───────────────────────────── */
+    #name-section {
+      padding: 110px 0;
+      background: linear-gradient(180deg, transparent, rgba(13,18,53,.45), transparent);
+    }
+
+    .name-grid {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 80px; align-items: center;
+    }
+
+    .name-rows { display: flex; flex-direction: column; gap: 0; }
+
+    .name-row {
+      display: flex; align-items: center; gap: 20px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0; transform: translateX(-24px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    .name-row.visible { opacity: 1; transform: none; }
+
+    .name-letter {
+      font-size: 44px; font-weight: 700;
+      min-width: 52px; text-align: center; line-height: 1;
+    }
+    .name-letter.g { color: var(--gold); }
+    .name-letter.c { color: var(--cyan); }
+
+    .name-desc { font-size: 16px; color: var(--text-dim); }
+    .name-desc strong { color: var(--text); }
+
+    .name-text { }
+    .name-text p {
+      font-size: 17px; color: var(--text-dim);
+      line-height: 1.85; margin-bottom: 18px;
+    }
+    .name-text p strong { color: var(--text); }
+
+    .mono-box {
+      background: rgba(0,212,255,.05);
+      border: 1px solid rgba(0,212,255,.18);
+      border-radius: 12px; padding: 18px 22px;
+      font-family: var(--mono); font-size: 12.5px;
+      color: var(--cyan); line-height: 2;
+      margin-top: 8px;
+    }
+
+    /* ── SERVICES ────────────────────────────────── */
+    #services { padding: 110px 0; }
+
+    .section-head { text-align: center; margin-bottom: 56px; }
+    .section-head p { font-size: 18px; color: var(--text-dim); max-width: 520px; margin: 0 auto; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px;
+      position: relative; overflow: hidden;
+      transition: transform .3s, border-color .3s, background .3s;
+      cursor: default;
+    }
+    .card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--cyan));
+      opacity: 0; transition: opacity .3s;
+    }
+    .card:hover { transform: translateY(-6px); border-color: var(--border-gold); background: rgba(255,255,255,.055); }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 52px; height: 52px; border-radius: 12px;
+      background: var(--gold-dim);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin-bottom: 18px;
+      transition: transform .3s;
+    }
+    .card:hover .card-icon { transform: scale(1.1) rotate(-6deg); }
+
+    .card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .card p  { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+    .card-tag {
+      display: inline-block; margin-top: 14px;
+      font-family: var(--mono); font-size: 11px; color: var(--cyan);
+      border: 1px solid rgba(0,212,255,.22); border-radius: 4px; padding: 2px 8px;
+    }
+
+    /* ── HOW IT WORKS ────────────────────────────── */
+    #how {
+      padding: 110px 0;
+      background: linear-gradient(180deg, transparent, rgba(13,18,53,.35), transparent);
+    }
+
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; position: relative; }
+    .steps::before {
+      content: ''; position: absolute;
+      top: 35px; left: calc(16.7% + 35px); right: calc(16.7% + 35px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), var(--cyan));
+      opacity: .35;
+    }
+
+    .step { text-align: center; padding: 0 12px; }
+
+    .step-num {
+      width: 70px; height: 70px; border-radius: 50%;
+      border: 2px solid var(--border-gold);
+      background: var(--gold-dim);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px;
+      font-size: 24px; font-weight: 700; color: var(--gold);
+      position: relative; z-index: 1;
+    }
+
+    .step h3 { font-size: 20px; font-weight: 600; margin-bottom: 10px; }
+    .step p  { font-size: 15px; color: var(--text-dim); line-height: 1.75; }
+
+    /* ── ABOUT ───────────────────────────────────── */
+    #about { padding: 110px 0; }
+
+    .about-grid {
+      display: grid; grid-template-columns: 300px 1fr;
+      gap: 80px; align-items: start;
+    }
+
+    .about-photo {
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--bg2), var(--bg3));
+      border: 1px solid var(--border);
+      aspect-ratio: 3/4;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; position: relative;
+    }
+    .about-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(245,166,35,.06), rgba(0,212,255,.06));
+    }
+    .photo-ph {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 10px; position: relative; z-index: 1;
+    }
+    .photo-ph svg  { opacity: .25; }
+    .photo-ph span { font-size: 12px; color: var(--text-dim); opacity: .6; text-align: center; padding: 0 20px; }
+
+    /* actual photo — just swap src on img tag */
+    .about-photo img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover; z-index: 2;
+    }
+
+    .about-text p {
+      font-size: 17px; color: var(--text-dim); line-height: 1.85; margin-bottom: 18px;
+    }
+    .about-text p strong { color: var(--text); }
+
+    .values { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+
+    .val {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 18px;
+    }
+    .val-ico { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .val p   { font-size: 14px; color: var(--text-dim); margin: 0; line-height: 1.55; }
+    .val p strong { color: var(--text); display: block; margin-bottom: 2px; font-size: 15px; }
+
+    /* ── CTA ─────────────────────────────────────── */
+    #cta { padding: 130px 0; }
+
+    .cta-inner {
+      max-width: 660px; margin: 0 auto; text-align: center;
+    }
+    .cta-inner h2 { margin-bottom: 16px; }
+    .cta-inner > p { font-size: 18px; color: var(--text-dim); margin-bottom: 48px; }
+
+    .btn-tg {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: linear-gradient(135deg, #2AABEE, #1A90D0);
+      color: #fff; padding: 18px 40px; border-radius: 14px;
+      font-weight: 700; font-size: 18px; text-decoration: none;
+      box-shadow: 0 8px 32px rgba(42,171,238,.28);
+      transition: transform .2s, box-shadow .2s;
+      margin-bottom: 8px;
+    }
+    .btn-tg:hover { transform: translateY(-4px); box-shadow: 0 14px 44px rgba(42,171,238,.48); }
+
+    .or-divider {
+      display: flex; align-items: center; gap: 16px;
+      color: var(--text-dim); font-size: 13px;
+      margin: 28px 0;
+    }
+    .or-divider::before, .or-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    .form { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .inp {
+      width: 100%;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 18px;
+      color: var(--text); font-family: var(--font); font-size: 15px;
+      outline: none; transition: border-color .2s;
+      appearance: none;
+    }
+    .inp:focus { border-color: rgba(0,212,255,.4); }
+    .inp::placeholder { color: var(--text-dim); }
+    textarea.inp { resize: vertical; min-height: 118px; }
+
+    .btn-submit {
+      background: var(--gold); color: #000;
+      border: none; border-radius: 10px;
+      padding: 16px 32px; width: 100%;
+      font-family: var(--font); font-size: 16px; font-weight: 700;
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,166,35,.4); }
+    .btn-submit:disabled { opacity: .7; cursor: default; transform: none; box-shadow: none; }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 0; text-align: center;
+    }
+    .foot-logo { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .foot-logo .sav { color: var(--gold); }
+    .foot-logo .os  { color: var(--cyan); }
+    footer p { font-size: 13px; color: var(--text-dim); }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 940px) {
+      .name-grid    { grid-template-columns: 1fr; gap: 50px; }
+      .grid-3       { grid-template-columns: repeat(2,1fr); }
+      .about-grid   { grid-template-columns: 1fr; }
+      .about-photo  { max-width: 280px; aspect-ratio: 1/1; }
+      .steps::before { display: none; }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 14px 18px; }
+      .grid-3  { grid-template-columns: 1fr; }
+      .steps   { grid-template-columns: 1fr; gap: 28px; }
+      .form-row { grid-template-columns: 1fr; }
+      .orb { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── PRELOADER ── -->
+<div id="preloader">
+  <div class="boot-terminal">
+    <div class="boot-line">> SAVOS OS v2.0 &mdash; initializing...</div>
+    <div class="boot-line ok">> AI modules loaded ............. [OK]</div>
+    <div class="boot-line ok">> Telegram interface ............ [OK]</div>
+    <div class="boot-line ok">> Human connection .............. [OK]</div>
+  </div>
+  <div class="boot-progress"><div class="boot-progress-fill"></div></div>
+  <div class="boot-logo"><span class="sav">Sav</span><span class="os">OS</span></div>
+  <div class="boot-sub">AI Operating System for your business</div>
+</div>
+
+<!-- ── PARTICLES ── -->
+<canvas id="particles"></canvas>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="sav">Sav</span><span class="os">OS</span><em>Studio</em>
+  </a>
+  <!-- ЗАМЕНИТЕ t.me/savos НА ВАШ TELEGRAM USERNAME -->
+  <a href="https://t.me/savos" class="nav-btn" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069-2.07 9.754c-.152.677-.557.843-1.128.524l-3.114-2.295-1.503 1.446c-.166.166-.306.306-.627.306l.224-3.174 5.784-5.228c.251-.224-.055-.348-.39-.124L7.8 14.08l-3.06-.956c-.665-.208-.679-.665.139-.984l11.966-4.612c.553-.2 1.037.135.717.541z"/>
+    </svg>
+    Написать в Telegram
+  </a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="orb orb-gold" aria-hidden="true"></div>
+  <div class="orb orb-cyan"  aria-hidden="true"></div>
+  <div class="container">
+    <div class="hero-inner reveal visible">
+      <div class="hero-badge">
+        <span class="dot" aria-hidden="true"></span>
+        Принимаем проекты &nbsp;·&nbsp; AI под ключ
+      </div>
+      <h1>
+        AI, который работает.<br>
+        <span class="g">Пока вы занимаетесь</span><br>
+        <span class="c">жизнью.</span>
+      </h1>
+      <p class="hero-sub">
+        Telegram-боты, умные секретари, AI-поддержка и авто-ответчики —
+        встраиваем искусственный интеллект прямо в ваш бизнес.
+        Быстро, надёжно и по-человечески тепло.
+      </p>
+      <div class="hero-ctas">
+        <!-- ЗАМЕНИТЕ t.me/savos НА ВАШ TELEGRAM USERNAME -->
+        <a href="https://t.me/savos" class="btn-primary" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069-2.07 9.754c-.152.677-.557.843-1.128.524l-3.114-2.295-1.503 1.446c-.166.166-.306.306-.627.306l.224-3.174 5.784-5.228c.251-.224-.055-.348-.39-.124L7.8 14.08l-3.06-.956c-.665-.208-.679-.665.139-.984l11.966-4.612c.553-.2 1.037.135.717.541z"/>
+          </svg>
+          Обсудить проект
+        </a>
+        <a href="#services" class="btn-outline">Что мы делаем ↓</a>
+      </div>
+      <div class="hero-scroll" aria-hidden="true">
+        <span>листайте вниз</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHAT IS SAVOS ── -->
+<section id="name-section">
+  <div class="container">
+    <div class="name-grid">
+      <!-- Acronym breakdown -->
+      <div>
+        <div class="label">Что такое SavOS</div>
+        <div class="name-rows" id="nameRows">
+          <div class="name-row">
+            <div class="name-letter g">SAV</div>
+            <div class="name-desc"><strong>«Сав»</strong> — из фамилии Савченко</div>
+          </div>
+          <div class="name-row">
+            <div class="name-letter c">O</div>
+            <div class="name-desc"><strong>Олег</strong> — имя</div>
+          </div>
+          <div class="name-row" style="border-bottom:none;">
+            <div class="name-letter c">S</div>
+            <div class="name-desc"><strong>Сергеевич</strong> — отчество</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text explanation -->
+      <div class="reveal">
+        <h2>За брендом стоит <span class="g">живой человек</span></h2>
+        <p>
+          <strong>SavOS</strong> — это «Савченко Олег Сергеевич». Не агентство с
+          безликими менеджерами, а я лично: вникаю в ваш бизнес,
+          проектирую решение и довожу его до запуска.
+        </p>
+        <p>
+          А две буквы <strong class="c">OS</strong> — это ещё и
+          <strong>Operating System</strong>. Потому что настоящий AI работает
+          не как отдельный виджет, а как операционная система вашего бизнеса:
+          всегда включена, всегда думает, никогда не болеет.
+        </p>
+        <div class="mono-box" aria-label="Расшифровка названия">
+          &gt; SavOS = Савченко Олег Сергеевич<br>
+          &gt; SavOS = Operating System for your business<br>
+          &gt; <span style="color:var(--text-dim)">// оба смысла работают одновременно</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="label">Услуги</div>
+      <h2>Что мы <span class="g">внедряем</span></h2>
+      <p>От простого бота до полноценной AI-системы — под ключ, с поддержкой</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon">🤖</div>
+        <h3>Telegram-боты</h3>
+        <p>От простого /start и меню до сложного бота с GPT, базой знаний и интеграцией в вашу CRM или таблицы.</p>
+        <span class="card-tag">Telegram</span>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon">💬</div>
+        <h3>AI-поддержка клиентов</h3>
+        <p>Умный чат прямо на вашем сайте: отвечает как живой оператор, знает продукт, задаёт уточняющие вопросы.</p>
+        <span class="card-tag">Сайт</span>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon">🗂️</div>
+        <h3>Интеллектуальный секретарь</h3>
+        <p>Принимает задачи, напоминает о встречах, резюмирует переписку и обрабатывает входящие 24/7.</p>
+        <span class="card-tag">Telegram · Сайт</span>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon">↩️</div>
+        <h3>AI-автоответчик</h3>
+        <p>Отвечает в Telegram пока вы заняты, спите или в отпуске. Не шаблонный ответ — умный, контекстный, с вашим голосом.</p>
+        <span class="card-tag">Telegram</span>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon">📱</div>
+        <h3>AI в соцсетях</h3>
+        <p>ВКонтакте, Instagram — авто-ответы в директе, комментарии, прогрев аудитории. Там, где живут ваши клиенты.</p>
+        <span class="card-tag">VK · Instagram</span>
+      </div>
+
+      <div class="card reveal">
+        <div class="card-icon">⚡</div>
+        <h3>Под вашу задачу</h3>
+        <p>Нестандартный случай? Расскажите — найдём решение. Любая платформа, любая интеграция, любая сложность.</p>
+        <span class="card-tag">Любая платформа</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="label">Как это работает</div>
+      <h2>Три шага от <span class="c">идеи</span> до <span class="g">результата</span></h2>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">1</div>
+        <h3>Разговор</h3>
+        <p>Рассказываете о бизнесе и задаче. Я задаю вопросы — умные, по делу. Никаких анкет на сорок пунктов.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">2</div>
+        <h3>Решение</h3>
+        <p>Проектирую AI под ваш конкретный сценарий и показываю, как это будет работать — ещё до начала разработки.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">3</div>
+        <h3>Запуск</h3>
+        <p>Внедряем, тестируем, передаём вам рабочий инструмент. С поддержкой и без исчезновений после оплаты.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT OLEG ── -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="about-photo">
+          <!--
+            Чтобы добавить фото:
+            раскомментируйте тег ниже и укажите путь к изображению.
+            <img src="photo-oleg.jpg" alt="Олег Савченко">
+          -->
+          <div class="photo-ph">
+            <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+            <span>Здесь будет<br>ваше фото, Олег</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-text reveal">
+        <div class="label">Об основателе</div>
+        <h2>Меня зовут <span class="g">Олег Савченко</span></h2>
+        <p>
+          Я занялся внедрением AI, потому что сам видел: бизнес тонет в рутине.
+          Одни и те же вопросы в чатах, пропущенные заявки, менеджеры которые
+          делают работу компьютера. Это можно и нужно исправить.
+        </p>
+        <p>
+          <strong>SavOS Studio — это не агентство с десятками субподрядчиков.</strong>
+          Это я и моя команда, с одним принципом: каждый клиент получает решение,
+          которое работает именно у него, а не шаблон из «базового пакета».
+        </p>
+
+        <div class="values">
+          <div class="val">
+            <div class="val-ico">🤝</div>
+            <p><strong>Долгосрочные отношения</strong>Я не исчезаю после сдачи проекта. Я на связи — это не рекламная фраза.</p>
+          </div>
+          <div class="val">
+            <div class="val-ico">🎯</div>
+            <p><strong>Результат, не технология</strong>Вам важно чтобы работало и приносило деньги, а не какая модель под капотом.</p>
+          </div>
+          <div class="val">
+            <div class="val-ico">💡</div>
+            <p><strong>Честность</strong>Если задача не требует AI — скажу об этом прямо и предложу что-то дешевле.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-inner reveal">
+      <div class="label">Начать</div>
+      <h2>Готовы внедрить <span class="g">AI</span> в ваш бизнес?</h2>
+      <p>Напишите мне — обсудим задачу без обязательств и лишних слов.</p>
+
+      <!-- ЗАМЕНИТЕ t.me/savos НА ВАШ TELEGRAM USERNAME -->
+      <a href="https://t.me/savos" class="btn-tg" target="_blank" rel="noopener">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069-2.07 9.754c-.152.677-.557.843-1.128.524l-3.114-2.295-1.503 1.446c-.166.166-.306.306-.627.306l.224-3.174 5.784-5.228c.251-.224-.055-.348-.39-.124L7.8 14.08l-3.06-.956c-.665-.208-.679-.665.139-.984l11.966-4.612c.553-.2 1.037.135.717.541z"/>
+        </svg>
+        Написать в Telegram
+      </a>
+
+      <div class="or-divider">или оставьте заявку</div>
+
+      <form class="form" id="contactForm" novalidate>
+        <div class="form-row">
+          <input class="inp" type="text"  name="name"    placeholder="Ваше имя"                    required autocomplete="name">
+          <input class="inp" type="text"  name="contact" placeholder="Telegram / телефон / email"  required autocomplete="off">
+        </div>
+        <textarea class="inp" name="message" placeholder="Кратко о задаче — что хотите автоматизировать?"></textarea>
+        <button type="submit" class="btn-submit">Отправить заявку →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="foot-logo"><span class="sav">Sav</span><span class="os">OS</span> Studio</div>
+    <p>© 2025 &mdash; AI Operating System for Your Business</p>
+    <p style="margin-top:6px;font-size:11px;opacity:.45;">Олег Савченко &nbsp;·&nbsp; savos.ru</p>
+  </div>
+</footer>
+
+<script>
+/* ── PRELOADER ── */
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 2700);
+});
+
+/* ── PARTICLES (neural network) ── */
+(function () {
+  const cvs = document.getElementById('particles');
+  const ctx = cvs.getContext('2d');
+  let W, H, nodes;
+
+  function resize() {
+    W = cvs.width  = window.innerWidth;
+    H = cvs.height = window.innerHeight;
+    nodes = Array.from({ length: Math.floor((W * H) / 13000) }, () => ({
+      x:  Math.random() * W,
+      y:  Math.random() * H,
+      vx: (Math.random() - .5) * .28,
+      vy: (Math.random() - .5) * .28,
+      r:  Math.random() * 1.8 + .8,
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < 115) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(0,212,255,${(1 - d / 115) * .28})`;
+          ctx.lineWidth = .5;
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(245,166,35,.65)';
+      ctx.fill();
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  draw();
+})();
+
+/* ── SCROLL REVEAL ── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .12 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── NAME ROWS STAGGER ── */
+const nameObs = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.name-row').forEach((row, i) => {
+        setTimeout(() => row.classList.add('visible'), i * 130);
+      });
+      nameObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: .2 });
+
+const nameRows = document.getElementById('nameRows');
+if (nameRows) nameObs.observe(nameRows);
+
+/* ── FORM ── */
+document.getElementById('contactForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const btn = this.querySelector('.btn-submit');
+  btn.textContent = 'Заявка отправлена ✓';
+  btn.style.background = 'var(--cyan)';
+  btn.disabled = true;
+  /* TODO: подключить отправку — Telegram webhook, EmailJS, Formspree и т.д. */
+});
+</script>
+</body>
+</html>
