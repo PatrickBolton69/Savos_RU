@@ -665,3 +665,131 @@ textarea.form-inp{resize:vertical;min-height:118px}
     .service-card{padding:28px 20px}
     .name-letter{font-size:36px;min-width:56px}
 }
+
+/* =============================================
+   TYPOGRAPHY IMPROVEMENTS
+   ============================================= */
+
+/* Balance heading wraps so no orphan single words */
+h1,h2,h3,.hero-title,.contacts-heading{text-wrap:balance}
+
+/* Larger, more comfortable body text throughout */
+.service-card p{font-size:16px;line-height:1.85}
+.advantage-text p{font-size:16px;line-height:1.85}
+.step-content p{font-size:15px;line-height:1.9}
+.name-right p{font-size:16px}
+.team-info p{font-size:16px;line-height:1.85}
+.contacts-sub{font-size:17px;line-height:1.75}
+
+/* Constrain reading line length to ~58-62 chars — prevents awkward mid-phrase wraps */
+.service-card p,
+.step-content p,
+.advantage-text p,
+.team-info p,
+.contacts-sub,
+.section-desc{max-width:58ch}
+
+/* Center-aligned sections: keep section-desc comfortably narrow */
+.section-header .section-desc{margin-left:auto;margin-right:auto}
+
+/* Slight letter-spacing improvements on headings */
+.section-header h2{letter-spacing:-.8px}
+.team-header h3{letter-spacing:-.4px}
+
+/* =============================================
+   SECTION VISUAL DIFFERENTIATION
+   Each section gets its own "color signature"
+   via CSS radial gradient glows
+   ============================================= */
+
+/* Services — cyan glow top-right */
+.services{overflow:hidden}
+.services::after{
+    content:'';position:absolute;
+    width:900px;height:900px;
+    background:radial-gradient(circle,rgba(0,212,255,.045) 0%,transparent 65%);
+    top:-100px;right:-200px;
+    pointer-events:none;z-index:0;
+}
+
+/* Advantages — gold glow bottom-left + subtle dot grid */
+.advantages{overflow:hidden}
+.advantages::before{
+    content:'';position:absolute;inset:0;
+    background-image:radial-gradient(circle,rgba(245,166,35,.07) 1px,transparent 1px);
+    background-size:34px 34px;
+    pointer-events:none;z-index:0;
+}
+.advantages::after{
+    content:'';position:absolute;
+    width:700px;height:700px;
+    background:radial-gradient(circle,rgba(245,166,35,.06) 0%,transparent 68%);
+    bottom:-100px;left:-150px;
+    pointer-events:none;z-index:0;
+}
+
+/* Process — keep its bg image, add purple glow center */
+.process{overflow:hidden}
+.process::after{
+    content:'';position:absolute;
+    width:600px;height:600px;
+    background:radial-gradient(circle,rgba(108,92,231,.06) 0%,transparent 65%);
+    top:50%;left:50%;transform:translate(-50%,-50%);
+    pointer-events:none;z-index:0;
+}
+
+/* About — subtle dot grid, no section-bg image needed */
+.about{overflow:hidden;padding:120px 24px}
+.about::before{
+    content:'';position:absolute;inset:0;
+    background-image:radial-gradient(circle,rgba(255,255,255,.035) 1px,transparent 1px);
+    background-size:28px 28px;
+    pointer-events:none;z-index:0;
+}
+.about::after{
+    content:'';position:absolute;
+    width:800px;height:800px;
+    background:radial-gradient(circle,rgba(0,212,255,.03) 0%,transparent 65%);
+    top:0;right:-100px;
+    pointer-events:none;z-index:0;
+}
+
+/* Contacts — centred gold atmosphere glow */
+.contacts{overflow:hidden}
+.contacts::before{
+    content:'';position:absolute;
+    width:700px;height:700px;
+    background:radial-gradient(circle,rgba(245,166,35,.07) 0%,transparent 65%);
+    top:50%;left:50%;transform:translate(-50%,-50%);
+    pointer-events:none;z-index:0;
+}
+
+/* Ensure content sits above pseudo-element backgrounds */
+.advantages .section-header,
+.advantages .advantages-content,
+.process .section-header,
+.process .process-steps,
+.about .about-container,
+.contacts .contacts-content{position:relative;z-index:1}
+
+/* =============================================
+   ADVANTAGES LAYOUT — 2×2 grid on desktop
+   ============================================= */
+@media(min-width:769px){
+    .advantages-content{
+        max-width:1000px;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:20px;
+    }
+    .advantage-item{flex-direction:column;gap:10px}
+    .advantage-num{font-size:40px}
+}
+
+/* =============================================
+   SCROLLBAR
+   ============================================= */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(245,166,35,.3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(245,166,35,.6)}
